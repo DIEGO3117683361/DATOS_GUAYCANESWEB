@@ -28,7 +28,7 @@
             color: #1e1e1e;
             max-width: 90vw;
             max-height: 80vh;
-            overflow-y: auto; /* Permite el desplazamiento vertical */
+            overflow-y: auto;
         }
 
         .logo-container {
@@ -165,11 +165,11 @@
             // Mostrar el banner de búsqueda
             searchingBanner.style.display = 'block';
 
-            fetch(${scriptURL}?nup=${nup})
+            fetch(`${scriptURL}?nup=${nup}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        resultContainer.innerHTML = 
+                        resultContainer.innerHTML = `
                             <p><strong>Datos encontrados:</strong></p>
                             <p>Código NUP: ${data.nup}</p>
                             <p>Nombre: ${data.nombre}</p>
@@ -182,14 +182,14 @@
                             <p>Cuota Tres: ${data.cuota3}</p>
                             <p>Documentos Disponibles: ${data.documentos}</p>
                             <p>Próxima Fecha de Pago: ${data.proximaFechaPago}</p>
-                        ;
+                        `;
                     } else {
-                        resultContainer.innerHTML = <p>No se encontraron datos para el NUP ingresado.</p>;
+                        resultContainer.innerHTML = `<p>No se encontraron datos para el NUP ingresado.</p>`;
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    resultContainer.innerHTML = <p>Error al buscar los datos. Intente nuevamente.</p>;
+                    resultContainer.innerHTML = `<p>Error al buscar los datos. Intente nuevamente.</p>`;
                 })
                 .finally(() => {
                     // Ocultar el banner de búsqueda

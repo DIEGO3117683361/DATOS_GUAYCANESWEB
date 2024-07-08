@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Búsqueda NUP</title>
+    <title>Formulario de Recolección de Datos</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
             background-color: #1e1e1e;
-            color: #1e1e1e;
+            color: #fff;
             margin: 0;
             padding: 0;
             display: flex;
@@ -21,14 +21,14 @@
         .container {
             text-align: center;
             background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             animation: fadeIn 1s ease-in-out;
-            color: #1e1e1e;
+            color: #2c3e50;
             max-width: 90vw;
             max-height: 80vh;
-            overflow-y: auto; /* Permite el desplazamiento vertical */
+            overflow-y: auto;
         }
 
         .logo-container {
@@ -69,68 +69,42 @@
         }
 
         .input-field {
-            padding: 10px;
+            padding: 15px;
             margin-top: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            border: 1px solid #34495e;
+            border-radius: 25px;
             font-size: 16px;
             width: 80%;
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            outline: none;
+        }
+
+        .input-field::placeholder {
+            color: #95a5a6;
         }
 
         .button {
-            padding: 10px 20px;
-            margin-top: 10px;
+            padding: 15px 30px;
+            margin-top: 20px;
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            background-color: #007bff;
+            border-radius: 25px;
+            font-size: 18px;
+            background-color: #2980b9;
             color: #fff;
             cursor: pointer;
             position: relative;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
         }
 
         .button:hover {
-            background-color: #0056b3;
+            background-color: #3498db;
         }
 
         .result {
             margin-top: 20px;
             font-size: 18px;
-        }
-
-        .searching-banner {
-            display: none;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            padding: 10px;
-            border-radius: 5px;
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            z-index: 1000;
-        }
-
-        .warning-text {
-            color: #888;
-            font-size: 14px;
-            margin-top: 20px;
-        }
-
-        .back-button {
-            padding: 10px 20px;
-            margin-top: 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            background-color: #007bff;
-            color: #fff;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        }
-
-        .back-button:hover {
-            background-color: #0056b3;
         }
     </style>
 </head>
@@ -143,65 +117,45 @@
         <div class="logo-container">
             <img src="https://www.dropbox.com/scl/fi/mgywqzbwl5ss5tubf5gv6/LOGO_COLOR.jpg.jpg?rlkey=bod3wghu6zprpeclld3p1dbkm&st=m5ah370n&dl=1" alt="Logo" class="logo">
         </div>
-        <h1>Bienvenido</h1>
-        <p>Ingrese su código NUP</p>
-        <input type="text" id="nup-input" class="input-field" placeholder="Escriba el código NUP aquí...">
-        <button class="button" onclick="buscarNUP()">Buscar</button>
+        <h1>Formulario de Recolección de Datos</h1>
+        <form id="data-form">
+            <input type="text" name="nombre" class="input-field" placeholder="Nombre" required>
+            <input type="email" name="correo" class="input-field" placeholder="Correo Electrónico" required>
+            <input type="tel" name="telefono1" class="input-field" placeholder="Número de Teléfono 1" required>
+            <input type="tel" name="telefono2" class="input-field" placeholder="Número de Teléfono 2" required>
+            <select name="metodo" class="input-field" required>
+                <option value="" disabled selected>Método de Adquisición</option>
+                <option value="Método 1">Método 1</option>
+                <option value="Método 2">Método 2</option>
+                <option value="Método 3">Método 3</option>
+                <option value="Personalizado">Personalizado</option>
+            </select>
+            <input type="date" name="fecha" class="input-field" required>
+            <input type="time" name="hora" class="input-field" required>
+            <button type="submit" class="button">Enviar</button>
+        </form>
         <div id="result" class="result"></div>
-        <div id="searching-banner" class="searching-banner">Buscando...</div>
-        <p class="warning-text">Los datos pueden no estar actualizados. Si realizó un pago, este se demorará hasta 3 días para verse reflejado aquí. Si tiene alguna duda, no dude en comunicarse.</p>
-        <button class="back-button" onclick="window.location.href='https://sites.google.com/view/parcelacionguayacaneseltambo/p%C3%A1gina-principal'">Volver a inicio</button>
     </div>
 
     <script>
-        let searchTimeout;
+        const form = document.getElementById('data-form');
+        const resultContainer = document.getElementById('result');
 
-        function buscarNUP() {
-            const nup = document.getElementById('nup-input').value;
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbyk3I1LwNq7C_CnyJjeJTJgjFEctVprT3CZKeAJKmnL8S9TtHmeXaDIpvLxMcspRN7P/exec';
-            const searchingBanner = document.getElementById('searching-banner');
-            const resultContainer = document.getElementById('result');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxGh95nS710-bE9CHt9i2G0Gyj7ODiBpguoLcTz47YOFXFEe8whMx9DKOE04ORF9NJzbg/exec';
 
-            // Mostrar el banner de búsqueda
-            searchingBanner.style.display = 'block';
-
-            fetch(`${scriptURL}?nup=${nup}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        resultContainer.innerHTML = `
-                            <p><strong>Datos encontrados:</strong></p>
-                            <p>Código NUP: ${data.nup}</p>
-                            <p>Nombre: ${data.nombre}</p>
-                            <p>Documento: ${data.documento}</p>
-                            <p>Correo Electrónico: ${data.correo}</p>
-                            <p>Teléfono: ${data.telefono}</p>
-                            <p>Número de Parcela: ${data.parcela}</p>
-                            <p>Cuota Uno: ${data.cuota1}</p>
-                            <p>Cuota Dos: ${data.cuota2}</p>
-                            <p>Cuota Tres: ${data.cuota3}</p>
-                            <p>Documentos Disponibles: ${data.documentos}</p>
-                            <p>Próxima Fecha de Pago: ${data.proximaFechaPago}</p>
-                        `;
-                    } else {
-                        resultContainer.innerHTML = `<p>No se encontraron datos para el NUP ingresado.</p>`;
-                    }
+            fetch(scriptURL, { method: 'POST', body: formData })
+                .then(response => response.text())
+                .then(response => {
+                    resultContainer.textContent = 'Datos enviados correctamente.';
+                    form.reset();
                 })
                 .catch(error => {
-                    console.error('Error:', error);
-                    resultContainer.innerHTML = `<p>Error al buscar los datos. Intente nuevamente.</p>`;
-                })
-                .finally(() => {
-                    // Ocultar el banner de búsqueda
-                    searchingBanner.style.display = 'none';
-
-                    // Eliminar los datos después de 5 minutos
-                    clearTimeout(searchTimeout);
-                    searchTimeout = setTimeout(() => {
-                        resultContainer.innerHTML = '';
-                    }, 5 * 60 * 1000); // 5 minutos en milisegundos
+                    resultContainer.textContent = 'Error al enviar los datos. Intente nuevamente.';
                 });
-        }
+        });
     </script>
 </body>
 </html>

@@ -158,18 +158,18 @@
 
         function buscarNUP() {
             const nup = document.getElementById('nup-input').value;
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbyk3I1LwNq7C_CnyJjeJTJgjFEctVprT3CZKeAJKmnL8S9TtHmeXaDIpvLxMcspRN7P/exec';
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxGh95nS710-bE9CHt9i2G0Gyj7ODiBpguoLcTz47YOFXFEe8whMx9DKOE04ORF9NJzbg/exec';
             const searchingBanner = document.getElementById('searching-banner');
             const resultContainer = document.getElementById('result');
 
             // Mostrar el banner de búsqueda
             searchingBanner.style.display = 'block';
 
-            fetch(${scriptURL}?nup=${nup})
+            fetch(`${scriptURL}?nup=${nup}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        resultContainer.innerHTML = 
+                        resultContainer.innerHTML = `
                             <p><strong>Datos encontrados:</strong></p>
                             <p>Código NUP: ${data.nup}</p>
                             <p>Nombre: ${data.nombre}</p>
@@ -182,14 +182,14 @@
                             <p>Cuota Tres: ${data.cuota3}</p>
                             <p>Documentos Disponibles: ${data.documentos}</p>
                             <p>Próxima Fecha de Pago: ${data.proximaFechaPago}</p>
-                        ;
+                        `;
                     } else {
-                        resultContainer.innerHTML = <p>No se encontraron datos para el NUP ingresado.</p>;
+                        resultContainer.innerHTML = `<p>No se encontraron datos para el NUP ingresado.</p>`;
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    resultContainer.innerHTML = <p>Error al buscar los datos. Intente nuevamente.</p>;
+                    resultContainer.innerHTML = `<p>Error al buscar los datos. Intente nuevamente.</p>`;
                 })
                 .finally(() => {
                     // Ocultar el banner de búsqueda

@@ -19,6 +19,24 @@
             overflow: hidden;
         }
 
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            filter: blur(5px);
+            opacity: 0.5;
+            background-size: cover;
+        }
+
+        .background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         .container {
             text-align: center;
             background: #fff;
@@ -30,6 +48,8 @@
             max-width: 90vw;
             max-height: 80vh;
             overflow-y: auto;
+            position: relative; /* Añadido */
+            z-index: 1; /* Añadido */
         }
 
         .logo-container {
@@ -107,6 +127,10 @@
     </style>
 </head>
 <body>
+    <div class="background">
+        <img src="https://www.dropbox.com/scl/fi/kumsmugej2e8i0vlhvajt/ZVERDDE_1.jpg?rlkey=owmc2tdhzpulo0cdey01o5w9y&st=thwasq9d&dl=1" alt="Fondo 1">
+        <img src="https://www.dropbox.com/scl/fi/rq9avkmhp4xls5n6bjwnq/ZVERDE_2.jpg?rlkey=04uqau4wg4w7je83jge55pacq&st=vuzf091h&dl=1" alt="Fondo 2">
+    </div>
     <div class="container">
         <div class="logo-container">
             <img src="https://www.dropbox.com/scl/fi/mgywqzbwl5ss5tubf5gv6/LOGO_COLOR.jpg.jpg?rlkey=bod3wghu6zprpeclld3p1dbkm&st=m5ah370n&dl=1" alt="Logo" class="logo">
@@ -162,12 +186,12 @@
                             <p>Próxima Fecha de Pago: ${data.proximaFechaPago}</p>
                         `;
                     } else {
-                        resultContainer.innerHTML = `<p>No se encontraron datos para el NUP ingresado.</p>`;
+                        resultContainer.innerHTML = '<p>No se encontraron datos para el NUP ingresado.</p>';
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    resultContainer.innerHTML = `<p>Error al buscar los datos. Intente nuevamente.</p>`;
+                    resultContainer.innerHTML = '<p>Error al buscar los datos. Intente nuevamente.</p>';
                 })
                 .finally(() => {
                     searchingBanner.style.display = 'none';

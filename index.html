@@ -43,14 +43,14 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 1s ease-in-out;
             color: #1e1e1e;
             max-width: 90vw;
             max-height: 80vh;
             overflow-y: auto;
-            position: relative; /* Añadido */
-            z-index: 1; /* Añadido */
-            margin-bottom: 20px; /* Añadido margen inferior */
+            position: relative;
+            z-index: 1;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-in-out; /* Animación de fade-in */
         }
 
         .logo-container {
@@ -107,8 +107,8 @@
         .warning-text {
             color: #888;
             font-size: 14px;
-            margin-top: 40px; /* Aumentado el margen superior */
-            margin-bottom: 40px; /* Añadido margen inferior */
+            margin-top: 40px;
+            margin-bottom: 40px;
         }
 
         .back-button {
@@ -125,6 +125,17 @@
 
         .back-button:hover {
             background-color: #0056b3;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
@@ -144,7 +155,7 @@
         <div id="result" class="result"></div>
         <div id="searching-banner" class="searching-banner">Buscando...</div>
         <p class="warning-text">Los datos pueden no estar actualizados. Si realizó un pago, este se demorará hasta 3 días para verse reflejado aquí. Si tiene alguna duda, no dude en comunicarse.</p>
-        <button class="back-button" onclick="window.location.href='https://sites.google.com/view/parcelacionguayacaneseltambo/cliente'">Finalizar</button>
+        <button class="back-button" onclick="window.location.href='https://sites.google.com/view/parcelacionguayacaneseltambo/cliente'">Volver</button>
     </div>
 
     <script>

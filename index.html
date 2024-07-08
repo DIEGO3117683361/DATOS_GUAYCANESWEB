@@ -157,17 +157,30 @@
         let searchTimeout;
 
         function buscarNUP() {
+            console.log('Función buscarNUP llamada'); // Agregamos un mensaje de depuración
             const nup = document.getElementById('nup-input').value;
             const scriptURL = 'https://script.google.com/macros/s/AKfycbxnaPQl19c896pxqiPkr0g61_4I_eI3-ODl1c-JALEsw9N73rinsdHdErGbeGxsejco/exec';
             const searchingBanner = document.getElementById('searching-banner');
             const resultContainer = document.getElementById('result');
 
+            if (!nup) {
+                resultContainer.innerHTML = '<p>Por favor, ingrese un código NUP.</p>';
+                return;
+            }
+
             // Mostrar el banner de búsqueda
             searchingBanner.style.display = 'block';
+            console.log('Banner de búsqueda mostrado'); // Agregamos un mensaje de depuración
 
             fetch(`${scriptURL}?nup=${nup}`)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la respuesta de la red');
+                    }
+                    return response.json();
+                })
                 .then(data => {
+                    console.log('Datos recibidos:', data); // Agregamos un mensaje de depuración
                     if (data.success) {
                         resultContainer.innerHTML = `
                             <p><strong>Datos encontrados:</strong></p>
@@ -194,6 +207,7 @@
                 .finally(() => {
                     // Ocultar el banner de búsqueda
                     searchingBanner.style.display = 'none';
+                    console.log('Banner de búsqueda ocultado'); // Agregamos un mensaje de depuración
 
                     // Eliminar los datos después de 5 minutos
                     clearTimeout(searchTimeout);
